@@ -1,0 +1,114 @@
+class ImageManager {
+  static const String imagesPath = 'assets/images';
+  static const String svgPath = 'assets/svg';
+  static const String baseLottie = "assets/lottie/";
+
+  /// image
+  static const String noDataImage = '$imagesPath/no_data.png';
+  static const String homeBg = '$imagesPath/home_bg.png';
+  static const String homeSolidLogo = '$imagesPath/home_solid_logo.png';
+  static const String cancelCircle = '$imagesPath/cancel_circle.png';
+  static const String personSetting = '$imagesPath/person_setting.png';
+  static const String categories = '$imagesPath/categories.png';
+
+  /// svg
+  static const String logo = '$svgPath/logo.svg';
+  static const String logout = '$svgPath/logout.svg';
+  static const String peoples = '$svgPath/peoples.svg';
+  static const String visitors = '$svgPath/visitors.svg';
+  static const String employees = '$svgPath/employees.svg';
+  static const String devices = '$svgPath/devices.svg';
+  static const String tasks = '$svgPath/tasks.svg';
+  static const String face = '$svgPath/face.svg';
+  static const String addCircle = '$svgPath/add_circle.svg';
+  static const String minusCircle = '$svgPath/minus_circle.svg';
+  static const String fullReport = '$svgPath/full_report.svg';
+  static const String holidays = '$svgPath/holidays.svg';
+  static const String wifi = '$svgPath/wifi.svg';
+  static const String wifiOff = '$svgPath/wifi-off.svg';
+  static const String yes = '$svgPath/yes.svg';
+  static const String no = '$svgPath/no.svg';
+  static const String fingerYes = '$svgPath/finger_yes.svg';
+  static const String fingerNo = '$svgPath/finger_no.svg';
+  static const String fingerAdd = '$svgPath/finger_add.svg';
+  static const String uploadData = '$svgPath/upload_data.svg';
+  static const String filter = '$svgPath/filter.svg';
+  static const String printer = '$svgPath/printer.svg';
+
+  static const String arrowDown = '$svgPath/arrow_down.svg';
+  static const String addPerson = '$svgPath/add_person.svg';
+  static const String removePerson = '$svgPath/remove_person.svg';
+  static const String notification = '$svgPath/notification.svg';
+  static const String language = '$svgPath/language.svg';
+  static const String cameraAdd = "$svgPath/camera_add.svg";
+  static const String galleyAdd = "$svgPath/galley_add.svg";
+  static const String remove = '$svgPath/remove.svg';
+  static const String cancelBack = '$svgPath/cancel_back.svg';
+  static const String category = '$svgPath/category.svg';
+  static const String peoplesOutlined = '$svgPath/peoples_outlined.svg';
+  static const String newPeople = '$svgPath/new_people.svg';
+  static const String sun = '$svgPath/sun.svg';
+  static const String sunOutlined = '$svgPath/sun_outlined.svg';
+  static const String positions = '$svgPath/positions.svg';
+  static const String world = '$svgPath/world.svg';
+  static const String search = '$svgPath/search.svg';
+  static const String add = '$svgPath/add.svg';
+  static const String downloadFile = '$svgPath/download_file.svg';
+  static const String dots = '$svgPath/dots.svg';
+  static const String job = '$svgPath/job.svg';
+  static const String phone = '$svgPath/phone.svg';
+  static const String email = '$svgPath/email.svg';
+  static const String fingerPrint = '$svgPath/finger_print.svg';
+  static const String cancel = '$svgPath/cancel.svg';
+  static const String cancelOutlined = '$svgPath/cancel_outlined.svg';
+  static const String check = '$svgPath/check.svg';
+  static const String calender = '$svgPath/calender.svg';
+  static const String circle = '$svgPath/circle.svg';
+  static const String calenderClock = '$svgPath/calender_clock.svg';
+  static const String clock = '$svgPath/clock.svg';
+  static const String clockOutlined = '$svgPath/clock_outlined.svg';
+  static const String dollar = '$svgPath/dollar.svg';
+  static const String timeAdd = '$svgPath/time_add.svg';
+  static const String building = '$svgPath/building.svg';
+  static const String assets = '$svgPath/assets.svg';
+  static const String settings = '$svgPath/settings.svg';
+  static const String checkIn = '$svgPath/check_in.svg';
+  static const String checkOut = '$svgPath/check_out.svg';
+  static const String noteBook = '$svgPath/note_book.svg';
+  static const String managerAccount = '$svgPath/manager_account.svg';
+  static const String currency = '$svgPath/currency.svg';
+  static const String financial = '$svgPath/financial.svg';
+  static const String card = '$svgPath/card.svg';
+  static const String promoCode = '$svgPath/promo_code.svg';
+  static const String archive = '$svgPath/archive.svg';
+  static const String lock = '$svgPath/lock.svg';
+  static const String disable = '$svgPath/disable.svg';
+  static const String reset = '$svgPath/reset.svg';
+  static const String calender2 = '$svgPath/calender2.svg';
+  static const String calender3 = '$svgPath/calender3.svg';
+  static const String report = '$svgPath/report.svg';
+  static const String list = '$svgPath/list.svg';
+  static const String sessions = '$svgPath/sessions.svg';
+  static const String edit = "$svgPath/edit.svg";
+  static const String delete = '$svgPath/delete.svg';
+  static const String deleteIcon = '$svgPath/delete_icon.svg';
+  static const String active = '$svgPath/active.svg';
+  static const String block = '$svgPath/block.svg';
+  static const String location = '$svgPath/location.svg';
+  static const String excel = '$svgPath/excel.svg';
+  static const String upload = '$svgPath/upload.svg';
+  static const String menu = '$svgPath/menu.svg';
+  static const String time = '$svgPath/time.svg';
+  static const String file = '$svgPath/file.svg';
+  static const String upDownArrow = '$svgPath/up_down_arrow.svg';
+  static const String pin = '$svgPath/pin.svg';
+
+  static const String rightArrow = '$svgPath/right_arrow.svg';
+  static const String leftArrow = '$svgPath/left_arrow.svg';
+
+  // Lottie
+  static const String lottieSuccess = "${baseLottie}success.json";
+  static const String lottieError = "${baseLottie}error.json";
+  static const String lottieNoInternet = "${baseLottie}no_internet.json";
+  static const String lottieLoading = "${baseLottie}loading.json";
+}
