@@ -315,6 +315,52 @@ class EmployeesCubit extends Cubit<EmployeesStates> {
     selectedSubjectCode = subjectEntity.code;
     emit(ChangeSubjectState());
   }
+
+  ///===================== MULTI SELECT EMPLOYEE ====================//
+
+  late PageController pageController;
+
+  List<EmployeesEntity> selectedEmployees = [];
+  List<EmployeesEntity> attendSelectedEmployees = [];
+  List<EmployeesEntity> absentSelectedEmployees = [];
+
+  void attendEmployeeSelection(String id) {
+    final employee = employeesList.firstWhere((e) => e.id == id);
+
+    // Add to selected if not already present
+    if (!selectedEmployees.any((e) => e.id == id)) {
+      selectedEmployees.add(employee);
+    }
+
+    // Add to attend list if not already present
+    if (!attendSelectedEmployees.any((e) => e.id == id)) {
+      attendSelectedEmployees.add(employee);
+    }
+
+    // Remove from absent list if present
+    absentSelectedEmployees.removeWhere((e) => e.id == id);
+
+    emit(EmployeesSelectionChangedState());
+  }
+
+  void absentEmployeeSelection(String id) {
+    final employee = employeesList.firstWhere((e) => e.id == id);
+
+    // Add to selected if not already present
+    if (!selectedEmployees.any((e) => e.id == id)) {
+      selectedEmployees.add(employee);
+    }
+
+    // Add to absent list if not already present
+    if (!absentSelectedEmployees.any((e) => e.id == id)) {
+      absentSelectedEmployees.add(employee);
+    }
+
+    // Remove from attend list if present
+    attendSelectedEmployees.removeWhere((e) => e.id == id);
+
+    emit(EmployeesSelectionChangedState());
+  }
 }
 
 enum GetCategoryData { none, loading, success, fail }

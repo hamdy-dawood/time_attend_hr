@@ -122,6 +122,15 @@ class LayoutHeaderBody extends StatelessWidget {
             iconColor: AppColors.green,
             iconBgColor: AppColors.green.withOpacity(0.1),
           ),
+      HomeItemEntity(
+        icon: ImageManager.active,
+        text: "حضور عن طريق الاستاذ",
+        subTitle: "تحديد هوية الأستاذ وتسجيل حضور الطلاب يدويا",
+        tabTitle: "انقر للبدء",
+        route: "manualAttendance",
+        iconColor: AppColors.purple,
+        iconBgColor: AppColors.purple.withOpacity(0.1),
+      ),
     ];
 
     return Padding(

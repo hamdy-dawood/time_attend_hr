@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,12 +10,14 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
+import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/helper/uploads_images.dart';
 import 'package:time_attend_recognition/core/network/dio.dart';
 import 'package:time_attend_recognition/core/network/end_points.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/constance.dart';
 import 'package:time_attend_recognition/features/home/data/models/faces_detection_model.dart';
+import 'package:time_attend_recognition/features/members/domain/entities/employees_entity.dart';
 
 import '../../domain/entities/members_attendance_entity.dart';
 import '../../domain/repositories/base_home_repository.dart';
@@ -443,6 +446,38 @@ class HomeCubit extends Cubit<HomeStates> {
     }
   }
 
+  Future<void> fingerprintSelectedStudents({
+    required List<EmployeesEntity> employees,
+    required int event,
+  }) async {
+    emit(MakeFingerprintLoadingState());
+
+    try {
+      for (var employee in employees) {
+        final response = await dioManager.post(
+          ApiConstants.fingerprint,
+          data: {
+            "enrollid": employee.enrollId,
+            "name": employee.displayName,
+            "event": event,
+            "time": "${DateTime.now()}",
+          },
+        );
+
+        if (response.statusCode != 200 && response.statusCode != 201) {
+          emit(MakeFingerprintFailState(message: response.data["error"]));
+          return;
+        }
+      }
+
+      emit(MakeFingerprintSuccessState(name: "تم إرسال البصمات بنجاح"));
+    } on DioException catch (e) {
+      handleFingerprintDioException(e);
+    } catch (e) {
+      emit(MakeFingerprintFailState(message: 'An unknown error: $e'));
+    }
+  }
+
   void handleFingerprintDioException(DioException e) async {
     if (e.type == DioExceptionType.cancel) {
       emit(MakeFingerprintFailState(message: "Request was cancelled"));
@@ -726,5 +761,78 @@ class HomeCubit extends Cubit<HomeStates> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     version = packageInfo.version;
     emit(LoadVersionState());
+  }
+
+  //=========================================================
+
+  String livenessThreshold = "0.7";
+  String identifyThreshold = "0.8";
+  int selectedLivenessLevel = 0;
+
+  final liveController = TextEditingController();
+  final identifyController = TextEditingController();
+
+  Future<void> loadSettings() async {
+    dynamic livenessLevel = Caching.get(key: AppConstance.livenessLevelKey);
+    dynamic livenessThreshold = Caching.get(key: AppConstance.identifyThresholdKey);
+    dynamic identifyThreshold = Caching.get(key: AppConstance.identifyThresholdKey);
+
+    livenessThreshold = livenessThreshold ?? "0.7";
+    identifyThreshold = identifyThreshold ?? "0.8";
+    selectedLivenessLevel = livenessLevel ?? 0;
+    liveController.text = livenessThreshold;
+    identifyController.text = identifyThreshold;
+    emit(SettingsLoadedState());
+  }
+
+  Future<void> updateLivenessLevel(dynamic value) async {
+    await Caching.get(key: AppConstance.identifyThresholdKey);
+    Caching.put(key: AppConstance.livenessLevelKey, value: value);
+  }
+
+  Future<void> updateLivenessThreshold(BuildContext context) async {
+    try {
+      var doubleValue = double.parse(liveController.text);
+      if (doubleValue >= 0 && doubleValue < 1.0) {
+        await Caching.put(key: AppConstance.identifyThresholdKey, value: liveController.text);
+
+        livenessThreshold = liveController.text;
+        emit(UpdateLiveThresholdState());
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+
+    MagicRouter.pop();
+    liveController.text = livenessThreshold;
+    emit(UpdateLiveThresholdState());
+  }
+
+  Future<void> updateIdentifyThreshold(BuildContext context) async {
+    try {
+      var doubleValue = double.parse(identifyController.text);
+      if (doubleValue >= 0 && doubleValue < 1.0) {
+        await Caching.put(key: AppConstance.identifyThresholdKey, value: identifyController.text);
+
+        identifyThreshold = identifyController.text;
+        emit(UpdateIdentifyThresholdState());
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    MagicRouter.pop();
+    identifyController.text = identifyThreshold;
+    emit(UpdateIdentifyThresholdState());
+  }
+
+  void onSelectedItemChanged(int? selectedItem) {
+    selectedLivenessLevel = selectedItem!;
+
+    updateLivenessLevel(selectedItem);
+    emit(ChangeLiveLevelState());
   }
 }

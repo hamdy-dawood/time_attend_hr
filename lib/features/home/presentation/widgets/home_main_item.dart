@@ -31,6 +31,13 @@ class HomeMainItem extends StatelessWidget {
               homeCubit: context.read<HomeCubit>(),
             ),
           );
+        } else if (item.route == "manualAttendance") {
+          MagicRouter.navigateTo(
+            page: TeacherFaceRecognitionView(
+              homeCubit: context.read<HomeCubit>(),
+              manual: true,
+            ),
+          );
         } else {
           context.pushNamed(item.route);
         }

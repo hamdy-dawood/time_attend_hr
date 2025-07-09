@@ -1,10 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
+import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
+import 'package:time_attend_recognition/core/utils/constance.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
 import 'package:time_attend_recognition/core/widget/svg_icons.dart';
 
 import '../cubit/home_cubit.dart';
+import '../cubit/home_states.dart';
+import 'identify_container.dart';
+import 'live_container.dart';
+import 'live_level_container.dart';
 import 'logout_button.dart';
 
 class HeaderTop extends StatelessWidget {
@@ -57,27 +67,28 @@ class HeaderTop extends StatelessWidget {
               ),
             ),
             // if (context.screenWidth >= 700) const Flexible(child: LoadingUploadWidget()),
-            const Row(
+            Row(
               children: [
-                // IconButton(
-                //   onPressed: () {
-                //     showDialog(
-                //       context: context,
-                //       builder: (context) {
-                //         return BlocProvider.value(
-                //           value: cubit,
-                //           child: SettingAlertDialog(cubit: cubit),
-                //         );
-                //       },
-                //     );
-                //   },
-                //   icon: const SvgIcon(
-                //     icon: ImageManager.settings,
-                //     color: AppColors.white,
-                //     height: 22,
-                //   ),
-                // ),
-                LogoutButton(),
+                IconButton(
+                  onPressed: () {
+                    cubit.loadSettings();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: cubit,
+                          child: SettingAlertDialog(cubit: cubit),
+                        );
+                      },
+                    );
+                  },
+                  icon: const SvgIcon(
+                    icon: ImageManager.settings,
+                    color: AppColors.grey,
+                    height: 22,
+                  ),
+                ),
+                const LogoutButton(),
               ],
             )
           ],
@@ -142,238 +153,178 @@ class HeaderTop extends StatelessWidget {
 //   }
 // }
 
-// class SettingAlertDialog extends StatefulWidget {
-//   const SettingAlertDialog({super.key, required this.cubit});
-//
-//   final HomeCubit cubit;
-//
-//   @override
-//   State<SettingAlertDialog> createState() => _SettingAlertDialogState();
-// }
-//
-// class _SettingAlertDialogState extends State<SettingAlertDialog> {
-//   @override
-//   void initState() {
-//     int cameraLens = Caching.get(key: AppConstance.cameraLensKey) ?? 1;
-//     int configReAttend = Caching.get(key: "configReAttend") ?? 30;
-//     int waitingDetect = Caching.get(key: "waitingDetect") ?? 120;
-//
-//     widget.cubit.frontCamera = cameraLens == 1 ? true : false;
-//     widget.cubit.configReAttendController.text = configReAttend.toString();
-//     widget.cubit.waitingController.text = waitingDetect.toString();
-//     widget.cubit.loadVersion();
-//     super.initState();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       backgroundColor: AppColors.white,
-//       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-//       content: SizedBox(
-//         width: context.screenWidth * 0.45,
-//         child: SingleChildScrollView(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   const Flexible(
-//                     child: CustomText(
-//                       text: "الإعدادات",
-//                       color: AppColors.black2,
-//                       fontWeight: FontWeight.w600,
-//                       fontSize: 24,
-//                       maxLines: 3,
-//                     ),
-//                   ),
-//                   IconButton(
-//                     onPressed: () {
-//                       Navigator.pop(context);
-//                     },
-//                     icon: Image.asset(
-//                       ImageManager.cancelCircle,
-//                       height: 30,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(height: 5),
-//               BlocBuilder<HomeCubit, HomeStates>(
-//                 builder: (context, state) {
-//                   return FittedBox(
-//                     child: CustomText(
-//                       text: "الإصدار : ${widget.cubit.version}",
-//                       color: AppColors.black2,
-//                       fontWeight: FontWeight.w500,
-//                       fontSize: 16,
-//                     ),
-//                   );
-//                 },
-//               ),
-//               const SizedBox(height: 20),
-//               TextButton(
-//                 style: ButtonStyle(
-//                   backgroundColor: WidgetStateProperty.all(AppColors.primary.withOpacity(0.8)),
-//                 ),
-//                 onPressed: () {
-//                   context.pop();
-//                   showDialog(
-//                     context: context,
-//                     builder: (context) {
-//                       return BlocProvider.value(
-//                         value: widget.cubit,
-//                         child: ChangePasswordAlert(cubit: widget.cubit),
-//                       );
-//                     },
-//                   );
-//                 },
-//                 child: Padding(
-//                   padding: EdgeInsets.symmetric(horizontal: 10.w),
-//                   child: const CustomText(
-//                     text: "تغيير كلمة المرور",
-//                     color: AppColors.white,
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.w600,
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 10),
-//               TextButton(
-//                 style: ButtonStyle(
-//                   backgroundColor: WidgetStateProperty.all(AppColors.primary.withOpacity(0.8)),
-//                 ),
-//                 onPressed: () {
-//                   context.pop();
-//                   showDialog(
-//                     context: context,
-//                     builder: (context) {
-//                       return BlocProvider.value(
-//                         value: widget.cubit,
-//                         child: ChangeCompanyDataAlert(cubit: widget.cubit),
-//                       );
-//                     },
-//                   );
-//                 },
-//                 child: Padding(
-//                   padding: EdgeInsets.symmetric(horizontal: 10.w),
-//                   child: const CustomText(
-//                     text: "تغيير اعدادات الشركة",
-//                     color: AppColors.white,
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.w600,
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               const CustomText(
-//                 text: "الكاميرا",
-//                 color: AppColors.grey,
-//                 fontWeight: FontWeight.w600,
-//                 fontSize: 16,
-//               ),
-//               SizedBox(height: 10.h),
-//               SettingsItem(
-//                 title: "عدسة الكاميرا الأمامية",
-//                 trailing: BlocBuilder<HomeCubit, HomeStates>(
-//                   builder: (context, state) {
-//                     return CupertinoSwitch(
-//                       activeColor: AppColors.primary,
-//                       thumbColor: AppColors.white,
-//                       trackColor: AppColors.grey,
-//                       value: widget.cubit.frontCamera,
-//                       onChanged: (value) {
-//                         widget.cubit.changeFrontCamera();
-//                       },
-//                     );
-//                   },
-//                 ),
-//               ),
-//               const SizedBox(height: 20),
-//               CustomTextFormField(
-//                 title: "مهلة الفحص",
-//                 titleFontSize: 16,
-//                 titleFontWeight: FontWeight.w500,
-//                 titleColor: AppColors.grey,
-//                 controller: widget.cubit.configReAttendController,
-//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//                 keyboardType: TextInputType.number,
-//                 borderRadius: 6,
-//                 hintText: "مهلة الفحص بالثواني...",
-//                 filledColor: AppColors.white,
-//               ),
-//               const SizedBox(height: 20),
-//               CustomTextFormField(
-//                 title: "مهلة الانتظار",
-//                 titleFontSize: 16,
-//                 titleFontWeight: FontWeight.w500,
-//                 titleColor: AppColors.grey,
-//                 controller: widget.cubit.waitingController,
-//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//                 keyboardType: TextInputType.number,
-//                 borderRadius: 6,
-//                 hintText: "مهلة الانتظار بالثواني...",
-//                 filledColor: AppColors.white,
-//               ),
-//               const SizedBox(height: 30),
-//               CustomButton(
-//                 onTap: () {
-//                   Caching.put(key: "configReAttend", value: int.parse(widget.cubit.configReAttendController.text));
-//                   Caching.put(key: "waitingDetect", value: int.parse(widget.cubit.waitingController.text));
-//                   context.pop();
-//                   showToastificationWidget(
-//                     message: "تم الحفظ بنجاح",
-//                     context: context,
-//                     notificationType: ToastificationType.success,
-//                   );
-//                 },
-//                 height: 48,
-//                 borderRadius: 6,
-//                 color: AppColors.primary,
-//                 fontColor: Colors.white,
-//                 text: "حفظ",
-//                 fontSize: 18,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class SettingsItem extends StatelessWidget {
-//   const SettingsItem({super.key, required this.title, this.trailing});
-//
-//   final String title;
-//   final Widget? trailing;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.only(bottom: 10.h),
-//       padding: const EdgeInsets.all(14),
-//       decoration: BoxDecoration(
-//         color: const Color.fromRGBO(249, 249, 249, 1),
-//         borderRadius: BorderRadius.circular(14.r),
-//         border: Border.all(color: const Color.fromRGBO(246, 246, 246, 1)),
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Expanded(
-//             child: CustomText(
-//               text: title,
-//               color: AppColors.black,
-//               fontWeight: FontWeight.w500,
-//               fontSize: 14,
-//             ),
-//           ),
-//           if (trailing != null) Flexible(child: trailing!),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class SettingAlertDialog extends StatefulWidget {
+  const SettingAlertDialog({super.key, required this.cubit});
+
+  final HomeCubit cubit;
+
+  @override
+  State<SettingAlertDialog> createState() => _SettingAlertDialogState();
+}
+
+class _SettingAlertDialogState extends State<SettingAlertDialog> {
+  @override
+  void initState() {
+    int cameraLens = Caching.get(key: AppConstance.cameraLensKey) ?? 1;
+    int configReAttend = Caching.get(key: "configReAttend") ?? 30;
+    int waitingDetect = Caching.get(key: "waitingDetect") ?? 120;
+
+    widget.cubit.frontCamera = cameraLens == 1 ? true : false;
+    widget.cubit.configReAttendController.text = configReAttend.toString();
+    widget.cubit.waitingController.text = waitingDetect.toString();
+    widget.cubit.loadVersion();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: AppColors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+      content: SizedBox(
+        width: context.screenWidth * 0.45,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Flexible(
+                    child: CustomText(
+                      text: "الإعدادات",
+                      color: AppColors.black2,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                      maxLines: 3,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Image.asset(
+                      ImageManager.cancelCircle,
+                      height: 30,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              BlocBuilder<HomeCubit, HomeStates>(
+                builder: (context, state) {
+                  return FittedBox(
+                    child: CustomText(
+                      text: "الإصدار : ${widget.cubit.version}",
+                      color: AppColors.black2,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              const CustomText(
+                text: "الكاميرا",
+                color: AppColors.grey,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+              SizedBox(height: 10.h),
+              SettingsItem(
+                title: "عدسة الكاميرا الأمامية",
+                trailing: BlocBuilder<HomeCubit, HomeStates>(
+                  builder: (context, state) {
+                    return CupertinoSwitch(
+                      activeColor: AppColors.primary,
+                      thumbColor: AppColors.white,
+                      trackColor: AppColors.grey,
+                      value: widget.cubit.frontCamera,
+                      onChanged: (value) {
+                        widget.cubit.changeFrontCamera();
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              // CustomTextFormField(
+              //   title: "مهلة الفحص",
+              //   titleFontSize: 16,
+              //   titleFontWeight: FontWeight.w500,
+              //   titleColor: AppColors.grey,
+              //   controller: widget.cubit.configReAttendController,
+              //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              //   keyboardType: TextInputType.number,
+              //   borderRadius: 6,
+              //   hintText: "مهلة الفحص بالثواني...",
+              //   filledColor: AppColors.white,
+              // ),
+              // const SizedBox(height: 20),
+              // CustomTextFormField(
+              //   title: "مهلة الانتظار",
+              //   titleFontSize: 16,
+              //   titleFontWeight: FontWeight.w500,
+              //   titleColor: AppColors.grey,
+              //   controller: widget.cubit.waitingController,
+              //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              //   keyboardType: TextInputType.number,
+              //   borderRadius: 6,
+              //   hintText: "مهلة الانتظار بالثواني...",
+              //   filledColor: AppColors.white,
+              // ),
+              // const SizedBox(height: 30),
+              // CustomText(
+              //   text: "الحد",
+              //   color: AppColors.black2,
+              //   fontWeight: FontWeight.w500,
+              //   fontSize: 16.sp,
+              // ),
+              // 5.verticalSpace,
+              LiveLevelContainer(cubit: widget.cubit),
+              LiveContainer(cubit: widget.cubit),
+              IdentifyContainer(cubit: widget.cubit),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsItem extends StatelessWidget {
+  const SettingsItem({super.key, required this.title, this.trailing});
+
+  final String title;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.h),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(249, 249, 249, 1),
+        borderRadius: BorderRadius.circular(14.r),
+        border: Border.all(color: const Color.fromRGBO(246, 246, 246, 1)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: FittedBox(
+              child: CustomText(
+                text: title,
+                color: AppColors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          if (trailing != null) Flexible(child: trailing!),
+        ],
+      ),
+    );
+  }
+}

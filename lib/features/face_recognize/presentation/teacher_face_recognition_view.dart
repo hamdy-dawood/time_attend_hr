@@ -21,9 +21,10 @@ import 'choose_subject.dart';
 
 // ignore: must_be_immutable
 class TeacherFaceRecognitionView extends StatefulWidget {
-  const TeacherFaceRecognitionView({super.key, required this.homeCubit});
+  const TeacherFaceRecognitionView({super.key, required this.homeCubit, this.manual = false});
 
   final HomeCubit homeCubit;
+  final bool manual;
 
   @override
   State<StatefulWidget> createState() => TeacherFaceRecognitionViewState();
@@ -97,6 +98,7 @@ class TeacherFaceRecognitionViewState extends State<TeacherFaceRecognitionView> 
               TeacherFaceDetection(
                 homeCubit: widget.homeCubit,
                 faceRecognitionCubit: faceRecognitionCubit,
+                manual: widget.manual,
               ),
               SizedBox(
                 width: 1.sw,
@@ -120,10 +122,12 @@ class TeacherFaceDetection extends StatefulWidget implements FaceDetectionInterf
     super.key,
     required this.homeCubit,
     required this.faceRecognitionCubit,
+    required this.manual,
   });
 
   final HomeCubit homeCubit;
   final FaceRecognitionCubit faceRecognitionCubit;
+  final bool manual;
 
   @override
   Future<void> onFaceDetected(dynamic faces) async {
@@ -137,7 +141,7 @@ class TeacherFaceDetection extends StatefulWidget implements FaceDetectionInterf
       MdSoftFaceDetection.specificTeacher = teacher;
 
       MagicRouter.navigateReplacement(
-        page: ChooseProjectScreen(teacher: teacher),
+        page: ChooseProjectScreen(teacher: teacher, manual: manual),
       );
     }
   }

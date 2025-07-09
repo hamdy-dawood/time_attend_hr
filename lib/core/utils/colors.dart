@@ -42,5 +42,6 @@ class AppColors {
   static const Color yellow = Color.fromRGBO(215, 163, 26, 1);
   static const Color yellow2 = Color.fromRGBO(254, 252, 232, 1);
   static const Color pink = Color.fromRGBO(197, 126, 186, 1);
+  static const Color purple = Color.fromRGBO(191, 64, 191, 1);
   static const Color transparent = Colors.transparent;
 }

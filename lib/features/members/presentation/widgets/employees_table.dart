@@ -205,7 +205,7 @@ class EmployeesTable extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

@@ -18,11 +18,13 @@ import '../../home/presentation/cubit/home_cubit.dart';
 import '../../members/data/models/employees_model.dart';
 import '../../members/presentation/cubit/employees_states.dart';
 import 'face_recognition_view.dart';
+import 'manual_attendance.dart';
 
 class ChooseProjectScreen extends StatelessWidget {
-  const ChooseProjectScreen({super.key, required this.teacher});
+  const ChooseProjectScreen({super.key, required this.teacher, required this.manual});
 
   final EmployeesModel teacher;
+  final bool manual;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +32,19 @@ class ChooseProjectScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt<EmployeesCubit>()),
       ],
-      child: ChooseProjectBody(teacher: teacher),
+      child: ChooseProjectBody(
+        teacher: teacher,
+        manual: manual,
+      ),
     );
   }
 }
 
 class ChooseProjectBody extends StatefulWidget {
-  const ChooseProjectBody({super.key, required this.teacher});
+  const ChooseProjectBody({super.key, required this.teacher, required this.manual});
 
   final EmployeesModel teacher;
+  final bool manual;
 
   @override
   State<ChooseProjectBody> createState() => _ChooseProjectBodyState();
@@ -79,16 +85,20 @@ class _ChooseProjectBodyState extends State<ChooseProjectBody> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
-        child: ProjectsBodyWidgets(teacher: widget.teacher),
+        child: ProjectsBodyWidgets(
+          teacher: widget.teacher,
+          manual: widget.manual,
+        ),
       ),
     );
   }
 }
 
 class ProjectsBodyWidgets extends StatelessWidget {
-  const ProjectsBodyWidgets({super.key, required this.teacher});
+  const ProjectsBodyWidgets({super.key, required this.teacher, required this.manual});
 
   final EmployeesModel teacher;
+  final bool manual;
 
   @override
   Widget build(BuildContext context) {
@@ -215,13 +225,23 @@ class ProjectsBodyWidgets extends StatelessWidget {
                                           color: AppColors.primary,
                                           text: "انقر لبدء الحضور",
                                           onTap: () {
-                                            MagicRouter.navigateTo(
-                                              page: FaceRecognitionView(
-                                                homeCubit: context.read<HomeCubit>(),
-                                                event: int.parse(context.read<EmployeesCubit>().selectedSubjectCode!),
-                                                subjectName: context.read<EmployeesCubit>().selectedSubjectName!,
-                                              ),
-                                            );
+                                            if (manual) {
+                                              MagicRouter.navigateTo(
+                                                page: ManualAttendance(
+                                                  homeCubit: context.read<HomeCubit>(),
+                                                  event: int.parse(context.read<EmployeesCubit>().selectedSubjectCode!),
+                                                  subjectName: context.read<EmployeesCubit>().selectedSubjectName!,
+                                                ),
+                                              );
+                                            } else {
+                                              MagicRouter.navigateTo(
+                                                page: FaceRecognitionView(
+                                                  homeCubit: context.read<HomeCubit>(),
+                                                  event: int.parse(context.read<EmployeesCubit>().selectedSubjectCode!),
+                                                  subjectName: context.read<EmployeesCubit>().selectedSubjectName!,
+                                                ),
+                                              );
+                                            }
                                           },
                                         ),
                                       ),

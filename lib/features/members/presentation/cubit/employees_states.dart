@@ -70,3 +70,5 @@ class ChangePageState extends EmployeesStates {}
 class ChangeCachedPeopleState extends EmployeesStates {}
 
 class ChangeSubjectState extends EmployeesStates {}
+
+class EmployeesSelectionChangedState extends EmployeesStates {}

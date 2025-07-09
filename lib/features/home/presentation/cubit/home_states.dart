@@ -148,3 +148,11 @@ class ErrorState extends HomeStates {
 
   ErrorState({required this.message});
 }
+
+class SettingsLoadedState extends HomeStates {}
+
+class UpdateLiveThresholdState extends HomeStates {}
+
+class UpdateIdentifyThresholdState extends HomeStates {}
+
+class ChangeLiveLevelState extends HomeStates {}
