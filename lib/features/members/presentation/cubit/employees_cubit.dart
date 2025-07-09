@@ -75,15 +75,13 @@ class EmployeesCubit extends Cubit<EmployeesStates> {
 
       // try {
       //   if (employeeImage != null) {
-      //     if (kIsWeb) {
-      //       employeeImageUploaded = await ImagesService.uploadImageWeb(employeeImage!);
-      //     } else {
-      //       employeeImageUploaded = await ImagesService.uploadImage(employeeImage!.path);
-      //     }
+      //     Uint8List imageBytes = await employeeImage!.readAsBytes();
+      //
+      //     // Convert to Base64
+      //     employeeImageUploaded = base64Encode(imageBytes);
       //   }
-      // } on Exception catch (e) {
-      //   emit(AddEmployeesFailState(message: e.toString()));
-      //   return;
+      // } catch (e) {
+      //   log('Error converting image to Base64: $e');
       // }
 
       final response = await baseMembersRepository.addEmployees(
@@ -162,8 +160,6 @@ class EmployeesCubit extends Cubit<EmployeesStates> {
     required BuildContext context,
     required String editPersonId,
   }) async {
-    print("editPersonId : editPersonId : ${editPersonId}");
-
     final image = await ImagePicker().pickImage(source: source, imageQuality: 100);
     if (image == null) return;
 
@@ -319,7 +315,6 @@ class EmployeesCubit extends Cubit<EmployeesStates> {
     selectedSubjectCode = subjectEntity.code;
     emit(ChangeSubjectState());
   }
-
 }
 
 enum GetCategoryData { none, loading, success, fail }

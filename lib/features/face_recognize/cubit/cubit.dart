@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/network/dio.dart';
 import 'package:time_attend_recognition/core/network/end_points.dart';
@@ -14,7 +14,6 @@ import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/internet_flash_bar.dart';
 import 'package:time_attend_recognition/features/home/data/models/faces_detection_model.dart';
-import 'package:logger/logger.dart';
 
 class FaceRecognitionCubit extends Cubit<FaceRecognitionStates> {
   FaceRecognitionCubit() : super(FaceRecognitionInitialState()) {

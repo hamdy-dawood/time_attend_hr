@@ -44,5 +44,4 @@ Future<void> setupGetIt() async {
   getIt.registerLazySingleton<BaseRemoteUsersEmployeesDataSource>(() => RemoteUsersEmployeesDataSource());
   getIt.registerLazySingleton<BaseUsersEmployeesRepository>(() => UsersEmployeesRepository(getIt()));
   getIt.registerFactory<UsersEmployeesCubit>(() => UsersEmployeesCubit(getIt()));
-
 }

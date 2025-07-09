@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
-import 'package:lottie/lottie.dart';
 
 class ResultLottie extends StatelessWidget {
   const ResultLottie({super.key});

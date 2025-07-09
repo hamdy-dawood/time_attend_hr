@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:logger/logger.dart';
+import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 
 import '../../../domain/repository/base_auth_repository.dart';
 import 'register_states.dart';

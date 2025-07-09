@@ -9,11 +9,9 @@ import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
-import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
 import 'package:time_attend_recognition/features/face_recognize/face_detection_class.dart';
 import 'package:time_attend_recognition/features/face_recognize/widgets/custom_paint_face.dart';
 import 'package:time_attend_recognition/features/home/presentation/screens/home_screen.dart';
-import 'package:toastification/toastification.dart';
 
 // ignore: must_be_immutable
 class FinishFaceRecognitionView extends StatefulWidget {
@@ -47,12 +45,13 @@ class FinishFaceRecognitionViewState extends State<FinishFaceRecognitionView> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (_){
+      onPopInvoked: (_) {
         MdSoftFaceDetection.faceDetectionController?.startCamera(getCameraLens());
       },
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: AppBar(
+          toolbarHeight: 85,
           leading: IconButton(
             onPressed: () {
               context.pop();
@@ -64,12 +63,28 @@ class FinishFaceRecognitionViewState extends State<FinishFaceRecognitionView> {
             ),
           ),
           title: const CustomText(
-            text: "انهاء الحضور",
-            color: AppColors.red,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
+            text: "تأكيد إنهاء الجلسة",
+            color: AppColors.black,
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
           ),
           centerTitle: true,
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(20),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Center(
+                child: CustomText(
+                  text: "يرجي التحقق من هويتك مرة اخري لإنهاء جلسة الحضور",
+                  color: AppColors.black2,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  textAlign: TextAlign.center,
+                  maxLines: 10,
+                ),
+              ),
+            ),
+          ),
         ),
         body: Stack(
           children: [

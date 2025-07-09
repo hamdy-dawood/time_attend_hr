@@ -69,7 +69,7 @@ class _AddEmployeeDialogBodyState extends State<AddEmployeeDialogBody> {
                     text: widget.isEdit ? "تعديل الموظف ${widget.member!.displayName}" : "اضافة موظف",
                     color: AppColors.black2,
                     fontWeight: FontWeight.w600,
-                    fontSize: 24,
+                    fontSize: 20,
                     maxLines: 3,
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:time_attend_recognition/core/errors/server_errors.dart';
 import 'package:logger/logger.dart';
+import 'package:time_attend_recognition/core/errors/server_errors.dart';
 
 import '../../domain/entities/add_users_employee_request_body.dart';
 import '../../domain/repositories/base_users_repository.dart';

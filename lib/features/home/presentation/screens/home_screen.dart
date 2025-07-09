@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:time_attend_recognition/core/dependancy_injection/dependancy_injection.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
-import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/emit_loading_item.dart';
 import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
 import 'package:time_attend_recognition/features/face_recognize/cubit/cubit.dart';
@@ -129,7 +127,7 @@ class _HomeBodyState extends State<HomeBody> {
       child: BlocBuilder<EmployeesCubit, EmployeesStates>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: AppColors.white,
+            backgroundColor: AppColors.mainBackground,
             body: BlocBuilder<HomeCubit, HomeStates>(
               builder: (context, state) {
                 if (state is GetProfileLoadingState) {
@@ -138,17 +136,7 @@ class _HomeBodyState extends State<HomeBody> {
                     size: 100,
                   );
                 }
-                return Stack(
-                  children: [
-                    Image.asset(
-                      ImageManager.homeBg,
-                      height: 1.sh,
-                      width: 1.sw,
-                      fit: BoxFit.cover,
-                    ),
-                    const HomeWidgets(),
-                  ],
-                );
+                return const HomeWidgets();
               },
             ),
           );

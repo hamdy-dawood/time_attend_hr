@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:time_attend_recognition/core/dependancy_injection/dependancy_injection.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
@@ -33,7 +32,7 @@ class EmployeesBody extends StatelessWidget {
     debugPrint("screenWidth ${context.screenWidth}");
 
     return const Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.mainBackground,
       body: Padding(
         padding: EdgeInsets.only(
           right: 15,
@@ -117,11 +116,9 @@ class EmployeesBodyWidgets extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _TitleWithBack(),
-              SizedBox(height: 10),
               // _SearchTextField(),
             ],
           ),
-        const SizedBox(height: 20),
         Expanded(child: EmployeesTable(cubit: context.read<EmployeesCubit>())),
       ],
     );
@@ -148,10 +145,10 @@ class _TitleWithBack extends StatelessWidget {
         const SizedBox(width: 10),
         const Flexible(
           child: CustomText(
-            text: "الموظفين",
+            text: "إدارة الطلاب",
             color: AppColors.black2,
             fontWeight: FontWeight.w600,
-            fontSize: 24,
+            fontSize: 22,
           ),
         ),
       ],

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
+import 'package:pinput/pinput.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/routing/routes.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
@@ -11,8 +13,6 @@ import 'package:time_attend_recognition/core/widget/custom_button.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
 import 'package:time_attend_recognition/core/widget/emit_loading_item.dart';
 import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
-import 'package:otp_timer_button/otp_timer_button.dart';
-import 'package:pinput/pinput.dart';
 
 import '../cubit/register/register_cubit.dart';
 import '../cubit/register/register_states.dart';

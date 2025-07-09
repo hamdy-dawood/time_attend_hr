@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-
-import '../../domain/entities/employees_entity.dart';
 import '../../domain/entities/subjects_entity.dart';
 
 class SubjectsModel extends SubjectsEntity {

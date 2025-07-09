@@ -52,7 +52,7 @@ class LogoutButton extends StatelessWidget {
       },
       child: const SvgIcon(
         icon: ImageManager.logout,
-        color: AppColors.white,
+        color: AppColors.grey,
         height: 22,
       ),
     );

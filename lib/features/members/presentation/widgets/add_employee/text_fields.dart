@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/widget/custom_text_form_field.dart';
-
-
-
 import '../../cubit/employees_cubit.dart';
 
 class EmployeeNameTextField extends StatelessWidget {

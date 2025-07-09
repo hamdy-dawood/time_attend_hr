@@ -90,6 +90,7 @@ class ImageManager {
   static const String list = '$svgPath/list.svg';
   static const String sessions = '$svgPath/sessions.svg';
   static const String edit = "$svgPath/edit.svg";
+  static const String editIcon = "$svgPath/edit_icon.svg";
   static const String delete = '$svgPath/delete.svg';
   static const String deleteIcon = '$svgPath/delete_icon.svg';
   static const String active = '$svgPath/active.svg';
@@ -102,9 +103,12 @@ class ImageManager {
   static const String file = '$svgPath/file.svg';
   static const String upDownArrow = '$svgPath/up_down_arrow.svg';
   static const String pin = '$svgPath/pin.svg';
-
   static const String rightArrow = '$svgPath/right_arrow.svg';
   static const String leftArrow = '$svgPath/left_arrow.svg';
+  static const String leftArrow2 = '$svgPath/left_arrow2.svg';
+  static const String graduate = '$svgPath/graduate.svg';
+  static const String eye = '$svgPath/eye.svg';
+  static const String subject = '$svgPath/subject.svg';
 
   // Lottie
   static const String lottieSuccess = "${baseLottie}success.json";

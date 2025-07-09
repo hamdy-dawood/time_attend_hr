@@ -1,25 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
-import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
-import 'package:time_attend_recognition/core/utils/constance.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
-import 'package:time_attend_recognition/core/widget/custom_button.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
-import 'package:time_attend_recognition/core/widget/custom_text_form_field.dart';
 import 'package:time_attend_recognition/core/widget/svg_icons.dart';
-import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:toastification/toastification.dart';
 
 import '../cubit/home_cubit.dart';
-import '../cubit/home_states.dart';
-import 'change_company_data_alert.dart';
-import 'change_password_alert.dart';
 import 'logout_button.dart';
 
 class HeaderTop extends StatelessWidget {
@@ -35,25 +20,44 @@ class HeaderTop extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Padding(
-                padding: EdgeInsetsDirectional.only(start: 60.w),
-                child: InkWell(
-                  onTap: () {
-                    // cubit.getHome();
-                    // cubit.getReport();
-                    cubit.loadCachedFaces();
-                  },
-                  child: const CustomText(
-                    text: "Time Attend",
-                    color: AppColors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
+              child: Row(
+                children: [
+                  const SizedBox(width: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.primary,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: SvgIcon(
+                        icon: ImageManager.graduate,
+                        color: AppColors.white,
+                        height: 22,
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: InkWell(
+                      onTap: () {
+                        // cubit.getHome();
+                        // cubit.getReport();
+                        cubit.loadCachedFaces();
+                      },
+                      child: const CustomText(
+                        text: "نظام حضور الطلاب",
+                        color: AppColors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             // if (context.screenWidth >= 700) const Flexible(child: LoadingUploadWidget()),
-            Row(
+            const Row(
               children: [
                 // IconButton(
                 //   onPressed: () {
@@ -73,7 +77,7 @@ class HeaderTop extends StatelessWidget {
                 //     height: 22,
                 //   ),
                 // ),
-                const LogoutButton(),
+                LogoutButton(),
               ],
             )
           ],

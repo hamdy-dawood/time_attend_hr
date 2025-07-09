@@ -9,7 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
+import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
+import 'package:time_attend_recognition/core/widget/svg_icons.dart';
 import 'package:time_attend_recognition/features/face_recognize/cubit/cubit.dart';
 import 'package:time_attend_recognition/features/face_recognize/face_detection_class.dart';
 import 'package:time_attend_recognition/features/face_recognize/widgets/attend_result_dialog.dart';
@@ -109,19 +111,28 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                 appBar: AppBar(
                   leading: const SizedBox(),
                   title: CustomText(
-                    text: " حضورة مادة ${widget.subjectName}",
+                    text: " مادة ${widget.subjectName}",
                     color: AppColors.primary,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
                   ),
                   centerTitle: true,
-                  // bottom: PreferredSize(
-                  //   preferredSize: const Size.fromHeight(5),
-                  //   child: Container(
-                  //     color: faceRecognitionCubit.isConnected ? AppColors.transparent : Colors.red,
-                  //     height: 5,
-                  //   ),
-                  // ),
+                  bottom: const PreferredSize(
+                    preferredSize: Size.fromHeight(20),
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Center(
+                        child: CustomText(
+                          text: "كاميرا التعرف على الطلاب",
+                          color: AppColors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          textAlign: TextAlign.center,
+                          maxLines: 10,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 body: Stack(
                   children: [
@@ -143,17 +154,27 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(
-                  backgroundColor: AppColors.white,
+                  backgroundColor: AppColors.red,
                   onPressed: () {
                     MagicRouter.navigateTo(
                       page: const FinishFaceRecognitionView(),
                     );
                   },
-                  label: const CustomText(
-                    text: "انهاء الحضور",
-                    color: AppColors.red,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
+                  label: const Row(
+                    children: [
+                      SvgIcon(
+                        icon: ImageManager.minusCircle,
+                        color: AppColors.white,
+                        height: 20,
+                      ),
+                      SizedBox(width: 10),
+                      CustomText(
+                        text: "انهاء الجلسة",
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16,
+                      ),
+                    ],
                   ),
                 ),
               );

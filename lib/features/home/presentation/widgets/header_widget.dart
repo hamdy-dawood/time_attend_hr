@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/routing/routes.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
@@ -16,7 +14,6 @@ import '../../domain/entities/home_item_entity.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_states.dart';
 import '../widgets/home_main_item.dart';
-import 'count_item.dart';
 import 'header_top.dart';
 
 class HomeWidgets extends StatelessWidget {
@@ -29,26 +26,20 @@ class HomeWidgets extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        Container(
+          decoration: const BoxDecoration(color: AppColors.white, boxShadow: [
+            BoxShadow(
+              color: AppColors.grey2,
+              offset: Offset(0, 1),
+            )
+          ]),
           width: 1.sw,
-          child: Stack(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Positioned.fill(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                  child: Container(
-                    color: Colors.black.withOpacity(0.05),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 40),
-                  HeaderTop(cubit: cubit),
-                  const SizedBox(height: 20),
-                ],
-              ),
+              const SizedBox(height: 40),
+              HeaderTop(cubit: cubit),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -62,75 +53,31 @@ class HomeWidgets extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: EdgeInsetsDirectional.symmetric(horizontal: 50.w),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const Padding(
+                    padding: EdgeInsetsDirectional.only(start: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!kIsWeb)
-                          Flexible(
-                            child: CustomText(
-                              text: "الرئيسية",
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
-                            ),
-                          ),
+                        SizedBox(height: 20),
+                        CustomText(
+                          text: "لوحة التحكم الرئيسية",
+                          color: AppColors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                        ),
+                        SizedBox(height: 5),
+                        CustomText(
+                          text: "اختر العملية المطلوبة من الخيارات أدناه",
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          maxLines: 3,
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  // BlocBuilder<HomeCubit, HomeStates>(builder: (context, state) {
-                  //   return Padding(
-                  //     padding: EdgeInsets.symmetric(horizontal: 100.w),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.center,
-                  //       children: [
-                  //         if (context.screenWidth < 700)
-                  //           Column(
-                  //             mainAxisSize: MainAxisSize.min,
-                  //             children: [
-                  //               CountItemRow(
-                  //                 title: "عدد الحضور",
-                  //                 count: "${cubit.presentCount}",
-                  //                 status: 1,
-                  //               ),
-                  //               SizedBox(height: 16.w),
-                  //               CountItemRow(
-                  //                 title: "عدد الغياب",
-                  //                 count: "${cubit.absentCount}",
-                  //                 status: 0,
-                  //               ),
-                  //             ],
-                  //           )
-                  //         else
-                  //           Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //             children: [
-                  //               Expanded(
-                  //                 child: CountItemColumn(
-                  //                   title: "عدد الحضور",
-                  //                   count: "${cubit.presentCount}",
-                  //                   status: 1,
-                  //                 ),
-                  //               ),
-                  //               SizedBox(width: 16.w),
-                  //               Expanded(
-                  //                 child: CountItemColumn(
-                  //                   title: "عدد الغياب",
-                  //                   count: "${cubit.absentCount}",
-                  //                   status: 0,
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // }),
-                  // const SizedBox(height: 10),
                   BlocBuilder<HomeCubit, HomeStates>(
                     builder: (context, state) {
                       return LayoutHeaderBody(cubit: cubit);
@@ -155,21 +102,26 @@ class LayoutHeaderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<HomeItemEntity> items = [
+      HomeItemEntity(
+        icon: ImageManager.peoplesOutlined,
+        text: "إدارة الطلاب",
+        subTitle: "عرض وإدارة بيانات الطلاب المسجلين",
+        tabTitle: "انقر للدخول",
+        route: Routes.employees,
+        iconColor: AppColors.primary,
+        iconBgColor: AppColors.primary.withOpacity(0.1),
+      ),
       if (!kIsWeb)
         if (Platform.isAndroid || Platform.isIOS)
           HomeItemEntity(
-            icon: ImageManager.face,
-            text: "بدئ التعرف",
-            count: "",
+            icon: ImageManager.cameraAdd,
+            text: "تسجيل حضور جماعي",
+            subTitle: "فتح الكاميرا وبدء عملية تسجيل الحضور للجلسة",
+            tabTitle: "انقر للبدء",
             route: "faceId",
-            textSize: 20,
+            iconColor: AppColors.green,
+            iconBgColor: AppColors.green.withOpacity(0.1),
           ),
-      HomeItemEntity(
-        icon: ImageManager.employees,
-        text: "الموظفون",
-        count: "",
-        route: Routes.employees,
-      ),
     ];
 
     return Padding(
@@ -194,7 +146,7 @@ class LayoutHeaderBody extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               mainAxisSpacing: 10,
               crossAxisSpacing: 16.w,
-              mainAxisExtent: 150,
+              mainAxisExtent: 190,
             ),
             itemBuilder: (context, index) {
               return HomeMainItem(item: items[index]);

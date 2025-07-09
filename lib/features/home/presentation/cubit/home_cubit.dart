@@ -432,7 +432,7 @@ class HomeCubit extends Cubit<HomeStates> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        emit(MakeFingerprintSuccessState(name : name));
+        emit(MakeFingerprintSuccessState(name: name));
       } else {
         emit(MakeFingerprintFailState(message: response.data["error"]));
       }

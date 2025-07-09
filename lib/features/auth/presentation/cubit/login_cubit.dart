@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/network/dio.dart';
-import 'package:logger/logger.dart';
 
 import '../../domain/repository/base_auth_repository.dart';
 import 'login_states.dart';

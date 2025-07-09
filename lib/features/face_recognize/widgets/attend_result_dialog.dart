@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
-import 'package:time_attend_recognition/core/widget/custom_cached_image.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
-import 'package:time_attend_recognition/features/members/data/models/employees_model.dart';
 
 import '../../home/presentation/cubit/home_cubit.dart';
 

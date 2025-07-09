@@ -91,11 +91,15 @@ class MdSoftFaceDetection {
         dynamic face = faces[0];
 
         for (var person in personList) {
-          double similarity = person.faceId != null ? await faceSdkPlugin.similarityCalculation(face['templates'], person.faceId!) ?? -1 : -1;
+          final template = face['templates'];
+          final faceId = person.faceId;
 
-          if (similarity > maxSimilarity) {
-            maxSimilarity = similarity;
-            personId = person.id;
+          if (template != null && faceId != null) {
+            double similarity = await faceSdkPlugin.similarityCalculation(template, faceId) ?? -1;
+            if (similarity > maxSimilarity) {
+              maxSimilarity = similarity;
+              personId = person.id;
+            }
           }
         }
 
@@ -105,7 +109,7 @@ class MdSoftFaceDetection {
 
         if (editPersonId.isNotEmpty) {
           /// edit
-          if (personId != editPersonId) {
+          if (personId != editPersonId && recognized == true) {
             return {
               "status": false,
               "message": "يوجد تطابق مع شخص اخر!",
@@ -165,9 +169,7 @@ class MdSoftFaceDetection {
     if (faces.length > 0) {
       dynamic face = faces[0];
 
-      double similarity = await userFaceSdkPlugin.similarityCalculation(
-          face['templates'], specificTeacher!.faceId!) ??
-          -1;
+      double similarity = await userFaceSdkPlugin.similarityCalculation(face['templates'], specificTeacher!.faceId!) ?? -1;
 
       double liveness = face['liveness'];
 
@@ -192,8 +194,6 @@ class MdSoftFaceDetection {
     };
   }
 }
-
-
 
 // ======================= GETTERS =======================//
 

@@ -58,6 +58,7 @@ class TeacherFaceRecognitionViewState extends State<TeacherFaceRecognitionView> 
         return Scaffold(
           backgroundColor: AppColors.white,
           appBar: AppBar(
+            toolbarHeight: 80,
             leading: IconButton(
               onPressed: () {
                 context.pop();
@@ -67,18 +68,27 @@ class TeacherFaceRecognitionViewState extends State<TeacherFaceRecognitionView> 
                 height: 28,
               ),
             ),
-            title: CustomText(
-              text: faceRecognitionCubit.isConnected ? "بدئ التعرف" : "تحقق من اتصالك بالانترنت",
-              color: faceRecognitionCubit.isConnected ? AppColors.primary : AppColors.red,
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
+            title: const CustomText(
+              text: "تحقق من هوية المدرس",
+              color: AppColors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
             ),
             centerTitle: true,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(5),
-              child: Container(
-                color: faceRecognitionCubit.isConnected ? AppColors.transparent : Colors.red,
-                height: 5,
+            bottom: const PreferredSize(
+              preferredSize: Size.fromHeight(30),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Center(
+                  child: CustomText(
+                    text: "يرجي النظر إلى الكاميرا للتحقق من هويتك قبل بدء تسجيل الحضور",
+                    color: AppColors.black2,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    textAlign: TextAlign.center,
+                    maxLines: 10,
+                  ),
+                ),
               ),
             ),
           ),
@@ -120,16 +130,14 @@ class TeacherFaceDetection extends StatefulWidget implements FaceDetectionInterf
     final Map<String, dynamic> detected = await MdSoftFaceDetection.onFaceDetected(faces: faces);
 
     if (detected["status"] == true) {
-      EmployeesModel person = detected["person"];
+      EmployeesModel teacher = detected["person"];
 
-      Logger().i("person data : ${person.enrollId} ${person.displayName}");
+      Logger().i("Teacher Data : ${teacher.enrollId} ${teacher.displayName}");
 
-      MdSoftFaceDetection.specificTeacher = person;
+      MdSoftFaceDetection.specificTeacher = teacher;
 
       MagicRouter.navigateReplacement(
-        page: ChooseProjectScreen(
-          enrollId: person.enrollId,
-        ),
+        page: ChooseProjectScreen(teacher: teacher),
       );
     }
   }

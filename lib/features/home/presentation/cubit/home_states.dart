@@ -119,7 +119,6 @@ class MakeFingerprintFailState extends HomeStates {
   MakeFingerprintFailState({required this.message});
 }
 
-
 //================================================================================
 
 class UpdateFirstDateStates extends HomeStates {}

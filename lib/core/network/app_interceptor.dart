@@ -56,6 +56,12 @@ class AppInterceptors extends Interceptor {
         err.requestOptions.headers['Authorization'] = 'Bearer $accessToken';
         return handler.resolve(await dio.fetch(err.requestOptions));
       }
+    } else if (err.response?.statusCode == 403) {
+      Caching.clearAllData();
+      navigatorKey.currentContext!.pushNamedAndRemoveUntil(
+        Routes.login,
+        predicate: (Route<dynamic> route) => false,
+      );
     }
     super.onError(err, handler);
   }

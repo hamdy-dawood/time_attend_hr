@@ -15,7 +15,7 @@ class RemoteAuthDataSource extends BaseRemoteAuthDataSource {
     required String role,
   }) async {
     final Response response = await dioManager.post(
-      ApiConstants.login ,
+      ApiConstants.login,
       data: {
         "user_name": userName,
         "pass": password,
