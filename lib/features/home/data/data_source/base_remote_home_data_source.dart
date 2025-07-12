@@ -4,6 +4,8 @@ import '../models/profile_model.dart';
 import '../models/report_count_model.dart';
 
 abstract class BaseRemoteHomeDataSource {
+  Future<dynamic> qrAttendance({required String token});
+
   Future<ProfileModel> getProfile();
 
   Future<bool> activation();

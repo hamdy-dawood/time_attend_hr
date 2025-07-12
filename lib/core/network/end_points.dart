@@ -8,15 +8,18 @@ class ApiConstants {
   static String upload = "/upload/image";
 
   static String login = "/api/users/login";
+  static String loginEmployee = "/api/employees/login";
   static String miniFace = "/api/employees/miniface";
   static String employees = "/api/employees";
   static String subjectsTeacher = "/api/subjects/teacher";
   static String fingerprint = "/api/fingerprints";
+  static String qrAttendance = "/api/qr-attendance/submit";
+
+  //========================================================================
 
   static String refreshTokenUrl = "/auth/refresh-token";
   static String registerAdmin = "/auth/register-admin";
   static String registerUsersEmployee = "/auth/register-employee";
-  static String loginEmployee = "/auth/login-employee";
   static String profile = "/auth/profile";
   static String editProfile = "/users/profile";
   static String changePassword = "/auth/change-password";

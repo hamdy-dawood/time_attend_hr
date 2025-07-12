@@ -36,9 +36,12 @@ class LogInCubit extends Cubit<LogInStates> {
           emit(LogInFailState(message: l.message));
           Logger().e(l.message);
         },
-        (r) {
+        (r) async {
+          Caching.put(key: "role", value: role);
           Caching.put(key: "access_token", value: r.accessToken);
-          // Caching.put(key: "refresh_token", value: r.refreshToken);
+          Caching.put(key: "enroll_id", value: r.result?.enrollId);
+          Caching.putList(key: "allowed_macs", value: r.result?.allowedMacs ?? []);
+
           emit(LogInSuccessState());
         },
       );

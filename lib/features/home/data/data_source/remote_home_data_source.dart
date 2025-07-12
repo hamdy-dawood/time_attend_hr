@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/network/dio.dart';
 import 'package:time_attend_recognition/core/network/end_points.dart';
 import 'package:time_attend_recognition/features/home/data/models/profile_model.dart';
@@ -10,6 +11,21 @@ import 'base_remote_home_data_source.dart';
 
 class RemoteHomeDataSource extends BaseRemoteHomeDataSource {
   final dioManager = DioManager();
+
+  @override
+  Future<dynamic> qrAttendance({
+    required String token,
+  }) async {
+    final Response response = await dioManager.post(
+      ApiConstants.qrAttendance,
+      data: {
+        "token": token,
+        "enrollid": Caching.get(key: "enroll_id") ?? "",
+      },
+    );
+
+    return response.data;
+  }
 
   @override
   Future<ProfileModel> getProfile() async {

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_beacon/flutter_beacon.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/utils/image_manager.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
+import 'package:time_attend_recognition/core/widget/overlay_loading.dart';
 import 'package:time_attend_recognition/core/widget/svg_icons.dart';
+import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
 import 'package:time_attend_recognition/features/face_recognize/presentation/teacher_face_recognition_view.dart';
+import 'package:time_attend_recognition/features/scanner/view.dart';
 
 import '../../domain/entities/home_item_entity.dart';
 import '../cubit/home_cubit.dart';
@@ -15,16 +20,18 @@ class HomeMainItem extends StatelessWidget {
   const HomeMainItem({
     super.key,
     required this.item,
+    required this.beacons,
     this.isImage = false,
   });
 
   final HomeItemEntity item;
   final bool isImage;
+  final List<Beacon> beacons;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
         if (item.route == "faceId") {
           MagicRouter.navigateTo(
             page: TeacherFaceRecognitionView(
@@ -38,6 +45,55 @@ class HomeMainItem extends StatelessWidget {
               manual: true,
             ),
           );
+        } else if (item.route == "qrCodeAttendance") {
+          List<String> allowedMacs = await Caching.getList(key: "allowed_macs") ?? [];
+
+          if (beacons.isNotEmpty) {
+            bool found = false;
+
+            for (var element in beacons) {
+              if (element.macAddress != null && allowedMacs.contains(element.macAddress)) {
+                found = true;
+
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BarcodeScannerScreen(),
+                  ),
+                );
+                if (result != null) {
+                  final regex = RegExp(r'token=([^&]+)');
+                  final match = regex.firstMatch(result);
+
+                  if (match != null) {
+                    String token = match.group(1)!;
+                    OverlayLoadingProgress.start(context);
+
+                    context.read<HomeCubit>().qrAttendance(token: token);
+                  } else {
+                    showToastificationWidget(
+                      message: "Token not found in QR code",
+                      context: context,
+                    );
+                  }
+                }
+
+                return;
+              }
+            }
+
+            if (!found) {
+              showToastificationWidget(
+                message: "انت لست في المنطقة المخصصة للحضور",
+                context: context,
+              );
+            }
+          } else {
+            showToastificationWidget(
+              message: "انت لست في المنطقة المخصصة للحضور",
+              context: context,
+            );
+          }
         } else {
           context.pushNamed(item.route);
         }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:time_attend_recognition/core/dependancy_injection/dependancy_injection.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
@@ -95,17 +96,17 @@ class EmployeesBodyWidgets extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (context.screenWidth > 800)
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _TitleWithBack(),
-              // Flexible(
-              //   child: Padding(
-              //     padding: EdgeInsets.symmetric(horizontal: context.screenWidth > 1300 ? 0.2.sw : 0.1.sw),
-              //     child: const _SearchTextField(),
-              //   ),
-              // ),
+              const _TitleWithBack(),
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: context.screenWidth > 1300 ? 0.2.sw : 0.1.sw),
+                  child: const _SearchTextField(),
+                ),
+              ),
               // if (!kIsWeb)
               //   if (Platform.isAndroid || Platform.isIOS)
               //     if (Caching.getProfile()!.permissions.canAdd) AddEmployeeButton(cubit: context.read<EmployeesCubit>()),
@@ -116,7 +117,8 @@ class EmployeesBodyWidgets extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _TitleWithBack(),
-              // _SearchTextField(),
+              SizedBox(height: 10),
+              _SearchTextField(),
             ],
           ),
         Expanded(child: EmployeesTable(cubit: context.read<EmployeesCubit>())),
@@ -175,8 +177,10 @@ class _SearchTextField extends StatelessWidget {
         ),
       ),
       onFieldSubmitted: (value) {
-        // context.read<EmployeesCubit>().getCount();
+        context.read<EmployeesCubit>().getEmployees();
       },
+      maxLines: 1,
+      isLastInput: true,
     );
   }
 }

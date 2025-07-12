@@ -10,6 +10,7 @@ import 'package:time_attend_recognition/core/widget/custom_button.dart';
 import 'package:time_attend_recognition/core/widget/custom_text.dart';
 import 'package:time_attend_recognition/core/widget/custom_text_form_field.dart';
 import 'package:time_attend_recognition/core/widget/emit_loading_item.dart';
+import 'package:time_attend_recognition/core/widget/sec_tab_bar.dart';
 import 'package:time_attend_recognition/core/widget/svg_icons.dart';
 import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
 
@@ -98,7 +99,25 @@ class LoginBody extends StatelessWidget {
                           maxLines: 10,
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
+                        DefaultTabController(
+                          length: 2,
+                          child: BlocBuilder<LogInCubit, LogInStates>(
+                            builder: (context, state) {
+                              return SecTabBar(
+                                tabs: const ["مدير", "موظف"],
+                                onTap: (index) {
+                                  if (index == 0) {
+                                    cubit.role = "admin";
+                                  } else {
+                                    cubit.role = "employee";
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        ),                        const SizedBox(height: 20),
+
                         CustomTextFormField(
                           title: "اسم المستخدم".tr(),
                           controller: cubit.userNameController,

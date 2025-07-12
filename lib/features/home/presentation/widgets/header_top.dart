@@ -69,25 +69,26 @@ class HeaderTop extends StatelessWidget {
             // if (context.screenWidth >= 700) const Flexible(child: LoadingUploadWidget()),
             Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    cubit.loadSettings();
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return BlocProvider.value(
-                          value: cubit,
-                          child: SettingAlertDialog(cubit: cubit),
-                        );
-                      },
-                    );
-                  },
-                  icon: const SvgIcon(
-                    icon: ImageManager.settings,
-                    color: AppColors.grey,
-                    height: 22,
+                if (Caching.get(key: 'role') == "admin")
+                  IconButton(
+                    onPressed: () {
+                      cubit.loadSettings();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return BlocProvider.value(
+                            value: cubit,
+                            child: SettingAlertDialog(cubit: cubit),
+                          );
+                        },
+                      );
+                    },
+                    icon: const SvgIcon(
+                      icon: ImageManager.settings,
+                      color: AppColors.grey,
+                      height: 22,
+                    ),
                   ),
-                ),
                 const LogoutButton(),
               ],
             )

@@ -16,9 +16,9 @@ class RemoteMembersDataSource extends BaseRemoteEmployeesDataSource {
   }) async {
     final Response response = await dioManager.get(
       ApiConstants.miniFace,
-      // queryParameters: {
-      //   if (searchText.isNotEmpty) "searchText": searchText,
-      // },
+      queryParameters: {
+        if (searchText.isNotEmpty) "name": searchText,
+      },
     );
 
     return List<EmployeesModel>.from(response.data["data"].map((e) => EmployeesModel.fromJson(e)));

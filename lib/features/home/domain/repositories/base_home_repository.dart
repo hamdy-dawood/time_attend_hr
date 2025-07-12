@@ -7,6 +7,10 @@ import '../entities/profile_entity.dart';
 import '../entities/report_count_entity.dart';
 
 abstract class BaseHomeRepository {
+  Future<Either<ServerError, dynamic>> qrAttendance({
+    required String token,
+  });
+
   Future<Either<ServerError, ProfileEntity>> getProfile();
 
   Future<Either<ServerError, bool>> activation();

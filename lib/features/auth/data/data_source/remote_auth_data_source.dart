@@ -15,11 +15,16 @@ class RemoteAuthDataSource extends BaseRemoteAuthDataSource {
     required String role,
   }) async {
     final Response response = await dioManager.post(
-      ApiConstants.login,
-      data: {
-        "user_name": userName,
-        "pass": password,
-      },
+      role == "admin" ? ApiConstants.login : ApiConstants.loginEmployee,
+      data: role == "admin"
+          ? {
+              "user_name": userName,
+              "pass": password,
+            }
+          : {
+              "username": userName,
+              "password": password,
+            },
     );
     return UserModel.fromJson(response.data);
   }

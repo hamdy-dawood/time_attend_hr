@@ -18,6 +18,25 @@ class HomeRepository extends BaseHomeRepository {
   final logger = Logger();
 
   @override
+  Future<Either<ServerError, dynamic>> qrAttendance({
+    required String token,
+  }) async {
+    try {
+      final result = await dataSource.qrAttendance(
+        token: token,
+      );
+      return Right(result);
+    } on DioException catch (fail) {
+      return Left(ServerFailure.fromDiorError(fail));
+    } catch (error) {
+      logger.e(error);
+      return Left(
+        ServerFailure(error.toString()),
+      );
+    }
+  }
+
+  @override
   Future<Either<ServerError, ProfileEntity>> getProfile() async {
     try {
       final result = await dataSource.getProfile();

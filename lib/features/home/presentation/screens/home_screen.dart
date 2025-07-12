@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:time_attend_recognition/core/caching/shared_prefs.dart';
 import 'package:time_attend_recognition/core/dependancy_injection/dependancy_injection.dart';
 import 'package:time_attend_recognition/core/helper/extension.dart';
 import 'package:time_attend_recognition/core/utils/colors.dart';
 import 'package:time_attend_recognition/core/widget/emit_loading_item.dart';
+import 'package:time_attend_recognition/core/widget/overlay_loading.dart';
 import 'package:time_attend_recognition/core/widget/toastification_widget.dart';
 import 'package:time_attend_recognition/features/face_recognize/cubit/cubit.dart';
 import 'package:time_attend_recognition/features/members/presentation/cubit/employees_cubit.dart';
@@ -21,20 +23,27 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        context.read<FaceRecognitionCubit>().isConnected
-            ? getAllEmployees
-                ? BlocProvider(
-                    create: (context) => getIt<EmployeesCubit>()..getEmployees(),
-                  )
-                : BlocProvider(create: (context) => getIt<EmployeesCubit>())
-            : BlocProvider(
-                create: (context) => getIt<EmployeesCubit>()..getCachedEmployees(),
-              ),
-      ],
-      child: HomeBody(getAllEmployees: getAllEmployees),
-    );
+    String role = Caching.get(key: 'role') ?? "";
+
+    return role == "admin"
+        ? MultiBlocProvider(
+            providers: [
+              context.read<FaceRecognitionCubit>().isConnected
+                  ? getAllEmployees
+                      ? BlocProvider(
+                          create: (context) => getIt<EmployeesCubit>()..getEmployees(),
+                        )
+                      : BlocProvider(create: (context) => getIt<EmployeesCubit>())
+                  : BlocProvider(
+                      create: (context) => getIt<EmployeesCubit>()..getCachedEmployees(),
+                    ),
+            ],
+            child: HomeBody(getAllEmployees: getAllEmployees),
+          )
+        : BlocProvider(
+            create: (context) => getIt<EmployeesCubit>(),
+            child: HomeBody(getAllEmployees: getAllEmployees),
+          );
   }
 }
 
@@ -51,12 +60,12 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-    final homeCubit = context.read<HomeCubit>();
-    final faceRecognitionCubit = context.read<FaceRecognitionCubit>();
+    // final homeCubit = context.read<HomeCubit>();
+    // final faceRecognitionCubit = context.read<FaceRecognitionCubit>();
 
     // faceRecognitionCubit.getConfig();
 
-    faceRecognitionCubit.init();
+    // faceRecognitionCubit.init();
 
     // if (faceRecognitionCubit.isConnected || kIsWeb) {
     //   homeCubit.getProfile();
@@ -117,6 +126,21 @@ class _HomeBodyState extends State<HomeBody> {
           if (state.wantPop) {
             context.pop();
           }
+
+          showToastificationWidget(
+            message: state.message,
+            context: context,
+          );
+        } else if (state is QrAttendanceSuccessState) {
+          OverlayLoadingProgress.stop();
+
+          showToastificationWidget(
+            message: state.message,
+            context: context,
+            notificationType: ToastificationType.success,
+          );
+        } else if (state is QrAttendanceFailState) {
+          OverlayLoadingProgress.stop();
 
           showToastificationWidget(
             message: state.message,

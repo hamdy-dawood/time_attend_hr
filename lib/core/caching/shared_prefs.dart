@@ -37,6 +37,18 @@ class Caching {
     await prefs?.clear();
   }
 
+  //===============================  CACHING LIST ================================//
+
+  static Future<void> putList({required String key, required List<String> value}) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(key, value);
+  }
+
+  static Future<List<String>?> getList({required String key}) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(key);
+  }
+
   //===============================  CACHING PROFILE DATA ================================//
 
   static ProfileModel? getProfile() {

@@ -26,11 +26,11 @@ class AuthRepository extends BaseAuthRepository {
       return Right(result);
     } on DioException catch (fail) {
       return Left(ServerFailure.fromDiorError(fail));
-    } catch (error) {
+    } /*catch (error) {
       return Left(
         ServerFailure(error.toString()),
       );
-    }
+    }*/
   }
 
   @override

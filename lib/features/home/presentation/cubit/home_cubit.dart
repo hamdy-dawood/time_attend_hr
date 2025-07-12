@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html/parser.dart' show parse;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -27,6 +28,31 @@ class HomeCubit extends Cubit<HomeStates> {
   final BaseHomeRepository baseHomeRepository;
 
   HomeCubit(this.baseHomeRepository) : super(HomeInitialState());
+
+  //========================= QR ATTENDANCE ===========================//
+
+  Future<void> qrAttendance({required String token}) async {
+    emit(QrAttendanceLoadingState());
+
+    final response = await baseHomeRepository.qrAttendance(token: token);
+    response.fold(
+      (l) => emit(QrAttendanceFailState(message: l.message)),
+      (r) {
+        final document = parse(r);
+        final message = document.querySelector('.msg')?.text.trim();
+
+        if (message != null) {
+          if (message.contains("تم تسجيل حضورك بنجاح")) {
+            emit(QrAttendanceSuccessState(message: message));
+          } else {
+            emit(QrAttendanceFailState(message: message));
+          }
+        } else {
+          emit(QrAttendanceSuccessState(message: ""));
+        }
+      },
+    );
+  }
 
   //========================= GET PROFILE ===========================//
 

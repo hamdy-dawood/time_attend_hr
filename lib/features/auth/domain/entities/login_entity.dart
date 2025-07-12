@@ -1,21 +1,19 @@
-import '../../data/models/user_model.dart';
-
 class UserEntity {
   String accessToken;
+  ResultEntity? result;
 
   UserEntity({
     required this.accessToken,
+    this.result,
   });
+}
 
-  UserModel copyWith({
-    String? id,
-    String? accessToken,
-    String? refreshToken,
-    String? displayName,
-    String? username,
-  }) {
-    return UserModel(
-      accessToken: accessToken ?? this.accessToken,
-    );
-  }
+class ResultEntity {
+  String enrollId;
+  List<String> allowedMacs;
+
+  ResultEntity({
+    required this.enrollId,
+    required this.allowedMacs,
+  });
 }

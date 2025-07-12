@@ -109,6 +109,7 @@ class ImageManager {
   static const String graduate = '$svgPath/graduate.svg';
   static const String eye = '$svgPath/eye.svg';
   static const String subject = '$svgPath/subject.svg';
+  static const String qrCode = '$svgPath/qr_code.svg';
 
   // Lottie
   static const String lottieSuccess = "${baseLottie}success.json";

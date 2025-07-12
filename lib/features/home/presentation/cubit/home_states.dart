@@ -6,6 +6,22 @@ class HomeInitialState extends HomeStates {}
 
 //========================= GET PROFILE ===========================//
 
+class QrAttendanceLoadingState extends HomeStates {}
+
+class QrAttendanceSuccessState extends HomeStates {
+  final String message;
+
+  QrAttendanceSuccessState({required this.message});
+}
+
+class QrAttendanceFailState extends HomeStates {
+  final String message;
+
+  QrAttendanceFailState({required this.message});
+}
+
+//========================= GET PROFILE ===========================//
+
 class GetProfileLoadingState extends HomeStates {}
 
 class GetProfileSuccessState extends HomeStates {}

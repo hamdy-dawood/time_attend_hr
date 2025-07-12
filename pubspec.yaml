@@ -83,6 +83,10 @@ dependencies:
   path_provider: ^2.1.1
   http_parser: any
   package_info_plus: ^8.3.0
+  flutter_beacon: ^0.5.1
+  permission_handler: ^11.3.1
+  qr_code_scanner_plus: ^2.0.10+1
+  html: ^0.15.4
 
 dev_dependencies:
   flutter_test:
