@@ -116,7 +116,7 @@ class _LayoutHeaderBodyState extends State<LayoutHeaderBody> {
     String role = Caching.get(key: 'role') ?? "";
 
     if (role != "admin") {
-   // todo //  requestPermissions();
+      requestPermissions();
     }
   }
 
@@ -148,7 +148,8 @@ class _LayoutHeaderBodyState extends State<LayoutHeaderBody> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Permissions Required'),
-          content: const Text('Bluetooth and Location permissions are required to scan for beacons.'),
+          content: const Text(
+              'Bluetooth and Location permissions are required to scan for beacons.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -175,7 +176,8 @@ class _LayoutHeaderBodyState extends State<LayoutHeaderBody> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Enable Bluetooth'),
-          content: const Text('Bluetooth is required to scan for beacons. Please enable Bluetooth.'),
+          content: const Text(
+              'Bluetooth is required to scan for beacons. Please enable Bluetooth.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -213,7 +215,8 @@ class _LayoutHeaderBodyState extends State<LayoutHeaderBody> {
       final regions = <Region>[Region(identifier: 'AllBeacons')];
 
       // Start ranging for beacons
-      _streamRanging = flutterBeacon.ranging(regions).listen((RangingResult result) {
+      _streamRanging =
+          flutterBeacon.ranging(regions).listen((RangingResult result) {
         log('Beacons found: ${result.beacons.length}');
         setState(() {
           beacons = result.beacons;

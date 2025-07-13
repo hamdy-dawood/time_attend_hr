@@ -31,11 +31,14 @@ class HomeScreen extends StatelessWidget {
               context.read<FaceRecognitionCubit>().isConnected
                   ? getAllEmployees
                       ? BlocProvider(
-                          create: (context) => getIt<EmployeesCubit>()..getEmployees(),
+                          create: (context) =>
+                              getIt<EmployeesCubit>()..getEmployees(),
                         )
-                      : BlocProvider(create: (context) => getIt<EmployeesCubit>())
+                      : BlocProvider(
+                          create: (context) => getIt<EmployeesCubit>())
                   : BlocProvider(
-                      create: (context) => getIt<EmployeesCubit>()..getCachedEmployees(),
+                      create: (context) =>
+                          getIt<EmployeesCubit>()..getCachedEmployees(),
                     ),
             ],
             child: HomeBody(getAllEmployees: getAllEmployees),
@@ -61,11 +64,11 @@ class _HomeBodyState extends State<HomeBody> {
   void initState() {
     super.initState();
     // final homeCubit = context.read<HomeCubit>();
-    // final faceRecognitionCubit = context.read<FaceRecognitionCubit>();
+    final faceRecognitionCubit = context.read<FaceRecognitionCubit>();
 
     // faceRecognitionCubit.getConfig();
 
-    // faceRecognitionCubit.init();
+    faceRecognitionCubit.init();
 
     // if (faceRecognitionCubit.isConnected || kIsWeb) {
     //   homeCubit.getProfile();

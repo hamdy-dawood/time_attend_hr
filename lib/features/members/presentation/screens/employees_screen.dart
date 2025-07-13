@@ -96,20 +96,26 @@ class EmployeesBodyWidgets extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (context.screenWidth > 800)
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: [
-              const _TitleWithBack(),
-              Flexible(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: context.screenWidth > 1300 ? 0.2.sw : 0.1.sw),
-                  child: const _SearchTextField(),
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const _TitleWithBack(),
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              context.screenWidth > 1300 ? 0.2.sw : 0.1.sw),
+                      child: const _SearchTextField(),
+                    ),
+                  ),
+                  // if (!kIsWeb)
+                  //   if (Platform.isAndroid || Platform.isIOS)
+                  //     if (Caching.getProfile()!.permissions.canAdd) AddEmployeeButton(cubit: context.read<EmployeesCubit>()),
+                ],
               ),
-              // if (!kIsWeb)
-              //   if (Platform.isAndroid || Platform.isIOS)
-              //     if (Caching.getProfile()!.permissions.canAdd) AddEmployeeButton(cubit: context.read<EmployeesCubit>()),
             ],
           )
         else
@@ -121,6 +127,7 @@ class EmployeesBodyWidgets extends StatelessWidget {
               _SearchTextField(),
             ],
           ),
+        const SizedBox(height: 15),
         Expanded(child: EmployeesTable(cubit: context.read<EmployeesCubit>())),
       ],
     );
